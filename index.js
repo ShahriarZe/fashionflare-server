@@ -49,30 +49,30 @@ async function run() {
         })
 
         // Update Method
-        app.get('/products/:id',async(req,res)=>{
-            const id = req.params.id 
-            const query = {_id : new ObjectId(id)}
+        app.get('/products/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: new ObjectId(id) }
             const result = await productCollection.findOne(query)
             res.send(result)
         })
 
-        app.put('/update/:id',async(req,res)=>{
+        app.put('/update/:id', async (req, res) => {
             const id = req.params.id
-            const filter = {_id : new ObjectId(id)}
-            const options={upsert : true}
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true }
             const updateProduct = req.body
             const product = {
-                $set : {
-                    photo : updateProduct.photo,
-                    name : updateProduct.name,
-                    brand : updateProduct.brand,
-                    type : updateProduct.type,
-                    price : updateProduct.price,
-                    description : updateProduct.description,
-                    rating : updateProduct.rating
+                $set: {
+                    photo: updateProduct.photo,
+                    name: updateProduct.name,
+                    brand: updateProduct.brand,
+                    type: updateProduct.type,
+                    price: updateProduct.price,
+                    description: updateProduct.description,
+                    rating: updateProduct.rating
                 }
             }
-            const result = await productCollection.updateOne(filter,product,options)
+            const result = await productCollection.updateOne(filter, product, options)
             res.send(result)
 
         })
@@ -93,15 +93,15 @@ async function run() {
         // Delete From Cart
         app.delete('/cart/:id', async (req, res) => {
             const id = req.params.id
-            const query = {_id : new ObjectId(id)}
-            const result =await cartCollection.deleteOne(query)
+            const query = { _id: id }
+            const result = await cartCollection.deleteOne(query)
             res.send(result)
         })
 
 
 
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
+        // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
